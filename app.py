@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import urllib.parse
 import math
+import random
 
 st.set_page_config(page_title="MariaSender Pro", layout="wide")
 
@@ -104,6 +105,12 @@ PLANTILLAS = [
 
 📌 No deje pasar esta oportunidad con Santander Consumer."""
 ]
+
+
+def obtener_plantilla(stable_id):
+    rng = random.Random(int(stable_id))
+    return rng.choice(PLANTILLAS)
+
 
 if "enviados" not in st.session_state:
     st.session_state.enviados = set()
@@ -210,7 +217,7 @@ if st.session_state.df_master is not None:
 
         stable_id = fila['_id']
 
-        plantilla = PLANTILLAS[i % len(PLANTILLAS)]
+        plantilla = obtener_plantilla(stable_id)
 
         mensaje = plantilla(nombre, monto)
 
